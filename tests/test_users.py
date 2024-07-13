@@ -33,9 +33,16 @@ class UsersTests(unittest.TestCase):
         response = self.register('t', 'test@example.com', 'FlaskIsAwesome')
         self.assertIn(b'Field must be between 2 and 20 characters long.', response.data)
 
+        response = self.register('tttttttttttttttttttttttttttttttttttttttt', 'test@example.com', 'FlaskIsAwesome')
+        self.assertIn(b'Field must be between 2 and 20 characters long.', response.data)
+
     def test_invalid_email_registration(self):
         response = self.register('test2', 'test@example', 'FlaskIsAwesome')
         self.assertIn(b'Invalid email address.', response.data)
+
+        response = self.register('test2', 'test@examplecom', 'FlaskIsAwesome')
+        self.assertIn(b'Invalid email address.', response.data)
+        
 
 
 if __name__ == "__main__":
